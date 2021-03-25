@@ -12,6 +12,12 @@ const catSchema = new mongoose.Schema({
     type: String,
     enum: ['male', 'female'],
   },
+  img: {
+    data: Buffer,
+    contentType: String,
+    size: String,
+    filename: String,
+  },
   color: String,
   weight: Number,
 });

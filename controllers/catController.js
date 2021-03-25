@@ -1,16 +1,27 @@
 'use strict';
 // catController
-const catModel = require('../models/catModel');
 const Cat = require('../models/catModel');
+const fs = require('fs');
 
 const createCat = async (req, res) => {
   const body = req.body;
   console.log(body);
   try {
+    const imgData = () => {
+     if (req.file) {
+      return  {
+        data: fs.readFileSync(req.file.path), // reads image data as a buffer
+        contentType: req.file.mimetype,
+        size: req.file.size,
+        filename: req.file.filename,
+      }
+     }
+    }
     const createdCat = await Cat.create({
       name: body.name,
       age:  body.age,
       gender: body.gender,
+      img: imgData(),
       color: body.color,
       weight: body.weight,
 
@@ -26,16 +37,17 @@ const createCat = async (req, res) => {
 const getCatList = async (req, res) => {
   console.log('query', req.query);
   if (req.query.gender && req.query.weight && req.query.age) {
-    // returns cat list filtered based on the provided query parameters
+    // returns cat list based on the provided filters (query parameters)
     const filteredCat = await Cat.find({
       gender: req.query.gender,
       age: {$gte: req.query.age, $lt: 40},
       weight: {$gte: req.query.weight},
     } );
     console.log('query', filteredCat);
-    
+
     return res.json(filteredCat)
   }
+  // returns list of all cats
   const cats = await Cat.find({})
   res.json(cats);
 };
