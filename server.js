@@ -8,7 +8,6 @@ const catRouter = require('./routes/catRoute');
 const userRouter = require('./routes/userRoute');
 const authRouter = require('./routes/authRoute');
 const app = express();
-const port = 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -19,6 +18,7 @@ app.use('/cat', passport.authenticate('jwt', {session: false}), catRouter);
 app.use('/auth', authRouter);
 
 
-db.on('connectec', () => {
-  app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+db.on('connected', () => {
+  app.listen(process.env.PORT,
+      () => console.log(`Example app listening on port ${process.env.PORT}!`));
 });

@@ -13,8 +13,12 @@ const upload = multer({storage: storage});
 
 catRouter.route('/')
     .get( catController.getCatList)
-    .post( upload.single('cat'), catController.uploadCatImage);
+    .post(catController.createCat);
+// .post( upload.single('cat'), catController.uploadCatImage);
 
-catRouter.get('/:id', catController.getCat);
+catRouter.route('/:id')
+    .get(catController.getCat)
+    .patch(catController.modifyCat)
+    .delete(catController.deleteCat);
 
 module.exports = catRouter;

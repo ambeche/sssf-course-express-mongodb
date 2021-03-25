@@ -6,9 +6,9 @@ const catSchema = new mongoose.Schema({
   age: {
     type: Number,
     min: [0],
-    max: [11],
+    max: [45],
   },
-  genre: {
+  gender: {
     type: String,
     enum: ['male', 'female'],
   },
